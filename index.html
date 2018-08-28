@@ -149,6 +149,16 @@
         context.stroke();
         context.restore();
       };
+	  
+	  Graph.prototype.drawCoordinates = function(x,y, color, thickness) {
+		var context = this.context;
+		var pointSize = 3;
+		context.fillStyle = "#ff2626"; // Red color
+
+		context.beginPath(); //Start path
+		context.arc(this.centerX + (x*this.scaleX), this.centerY+ ((y*-1)*this.scaleY), pointSize, 0, Math.PI * 2, true); // Draw a point using the arc function of the canvas with a point structure.
+		context.fill(); // Close the path and fill.
+      };
 
       Graph.prototype.transformContext = function() {
         var context = this.context;
@@ -180,6 +190,9 @@
         return 2*x * x -1 ;
       }, 'blue', 3);
 
+	  myGraph.drawCoordinates(1,1, 'red', 1);
+	  myGraph.drawCoordinates(2,3, 'red', 1);
+	  
       <!-- myGraph.drawEquation(function(x) { -->
         <!-- return 1 * x; -->
       <!-- }, 'red', 3); -->
