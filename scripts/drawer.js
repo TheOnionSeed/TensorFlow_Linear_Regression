@@ -1,5 +1,5 @@
 $(document).ready(init);
-function generateData(numPoints, coeff, sigma = 0.04) {
+function generateData(numPoints, coeff, sigma = 0.3) {
   return tf.tidy(() => {
     const [a, b, c, d] = [
       tf.scalar(coeff.a), tf.scalar(coeff.b), tf.scalar(coeff.c),
@@ -13,7 +13,8 @@ function generateData(numPoints, coeff, sigma = 0.04) {
     const ys = a.mul(xs.pow(three))
       .add(b.mul(xs.square()))
       .add(c.mul(xs))
-      .add(d);
+      .add(d)
+	  .add(tf.randomNormal([numPoints], -1*sigma, sigma));;
 
     return {
       xs, 
