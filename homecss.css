@@ -32,10 +32,10 @@
 }
 
 .container {
-  display: inline-block;
+  display: block;
   text-align: center;
   height:600px;
-  width:600px;
+  width:1300px;
   border: 1px solid black;
   padding:1px;
   margin:1px;
