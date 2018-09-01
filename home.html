@@ -2,21 +2,28 @@
 <html>
 
 <link rel="stylesheet" type="text/css" href="homecss.css">
+<script src="./scripts/jquery-3.3.1.min.js"></script>
+<script src="./scripts/tfjs@0.12.js"></script>
+<script src="./scripts/graph.js"></script>
+<script src="./scripts/drawer.js"></script>
+	  
 <!--<script src="sliderjs.js"></script> -->
 <center>
   <div class="container">
-    <form class="sampleSize">
-      Sample Size: <input type="text" name="Sample Size"><br>
-    </form>
+	<h2>Quadratic function</h2>
 
     <div class="graph">
-      <svg width="250" height="250">
-        <circle cx="150" cy="150" r="90" stroke="green" stroke-width="4" fill="yellow" />
-      </svg>
+       <canvas id="QuadraticCanvas" width="578" height="578"></canvas></canvas>
     </div>
+	
+	<form class="sampleSize">
+      Sample Size: <input id="QuadraticSampleSize" type="text" name="Sample Size"><br>
+    </form>
+
+	
     <p>Learning Rate: <span id="demo"></span></p>
     <div class="slidecontainer">
-      <input type="range" min="0" max="1" step="0.00001" value="0.5" class="slider" id="myRange">
+      <input id="QuadraticLearningRate" type="range" min="0" max="1" step="0.00001" value="0.5" class="slider">
     </div>
 
     <button class="button">Generate Data</button>
@@ -24,7 +31,7 @@
   </div>
 
   <script>
-  var slider = document.getElementById("myRange");
+  var slider = document.getElementById("QuadraticLearningRate");
   var output = document.getElementById("demo");
   output.innerHTML = slider.value;
 
@@ -34,6 +41,7 @@
   </script>
 
   <div class="container">
+	<h2>Cubic function</h2>
     <form class="sampleSize">
       Sample Size: <input type="text" name="Sample Size"><br>
     </form>

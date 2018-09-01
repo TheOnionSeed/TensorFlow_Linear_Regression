@@ -140,3 +140,8 @@ function Graph(config) {
       */
      context.scale(this.scaleX, -this.scaleY);
    };
+   
+   Graph.prototype.clear = function() {
+	var context = this.context;
+	context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+   };
