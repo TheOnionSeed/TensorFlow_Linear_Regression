@@ -1,4 +1,14 @@
-$(document).ready(init);
+$(document).ready(function(){
+	myGraph = new Graph({
+              canvasId: 'QuadraticCanvas',
+              minX: -10,
+              minY: -10,
+              maxX: 10,
+              maxY: 10,
+              unitsPerTick: 1
+            });
+	$('#TrainQuadratic').click(init);
+});
 const trueCoefficients = {a: -0.2, b: 0.9, c: 0.4};
 	const trainingData = generateData(1000, trueCoefficients);
 function generateData(numPoints, coeff, sigma = 0.3) {
@@ -51,7 +61,7 @@ function generateData(numPoints, coeff, sigma = 0.3) {
    }
       
    async function train(xs,ys,numIterations=10000000){
-      const learningRate = 0.0004;
+      const learningRate = $('#QuadraticLearningRate').val();
       const optimizer = tf.train.sgd(learningRate);
       
       for(let i=0; i < numIterations; i++){
@@ -65,35 +75,12 @@ function generateData(numPoints, coeff, sigma = 0.3) {
       }
    }
    
-async function init(){
+function init(){
 	
-	myGraph = new Graph({
-              canvasId: 'QuadraticCanvas',
-              minX: -10,
-              minY: -10,
-              maxX: 10,
-              maxY: 10,
-              unitsPerTick: 1
-            });
 	
-
-   myGraph.drawEquation(function(x) {
-      return -0.2*x*x +0.9*x + 0.4 ;
-   }, 'blue', 4);
-   
-    var coordinatesx = trainingData.xs.dataSync(); 
 	
-    var coordinatesy = trainingData.ys.dataSync(); 
-    for(var i=0; i < coordinatesx.length; i++){
-       myGraph.drawCoordinates(coordinatesx[i],coordinatesy[i], 'red', 1);
-    }
-  
     train(trainingData.xs,trainingData.ys,numIterations=10000000);
 
-      // myGraph.drawEquation(function(x) {
-         // return a.dataSync()[0]*x*x + b.dataSync()[0]*x + c.dataSync()[0] ;
-      // }, 'green', 2);
-      
   
 }
 function sleep(ms) {
@@ -110,9 +97,10 @@ function redraw(){
               maxY: 10,
               unitsPerTick: 1
             });
-			myGraph.drawEquation(function(x) {
-      return -0.2*x*x +0.9*x + 0.4 ;
-   }, 'blue', 4);
+			
+	myGraph.drawEquation(function(x) {
+		return -0.2*x*x +0.9*x + 0.4 ;
+	}, 'blue', 4);
    
     var coordinatesx = trainingData.xs.dataSync(); 
 	
