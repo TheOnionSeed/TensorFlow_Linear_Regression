@@ -10,7 +10,8 @@ $(document).ready(function(){
 	$('#TrainQuadratic').click(init);
 });
 const trueCoefficients = {a: -0.2, b: 0.9, c: 0.4};
-	const trainingData = generateData(1000, trueCoefficients);
+
+var trainingData;
 function generateData(numPoints, coeff, sigma = 0.3) {
   return tf.tidy(() => {
     const [a, b, c] = [
@@ -60,7 +61,7 @@ function generateData(numPoints, coeff, sigma = 0.3) {
       return meanSquareError;
    }
       
-   async function train(xs,ys,numIterations=10000000){
+   async function train(xs,ys,numIterations){
       const learningRate = $('#QuadraticLearningRate').val();
       const optimizer = tf.train.sgd(learningRate);
       
@@ -76,9 +77,8 @@ function generateData(numPoints, coeff, sigma = 0.3) {
    }
    
 function init(){
-	
-	
-	
+	trainingData = generateData(parseInt($('#QuadraticSampleSize').val(), 10), trueCoefficients);
+
     train(trainingData.xs,trainingData.ys,numIterations=10000000);
 
   

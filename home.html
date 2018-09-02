@@ -17,7 +17,7 @@
     </div>
 	
 	<form class="sampleSize">
-      Sample Size: <input id="QuadraticSampleSize" type="text" name="Sample Size"><br>
+      Sample Size: <input id="QuadraticSampleSize" type="number" min=1000 max=100000 name="Sample Size"><br>
     </form>
 
 	
@@ -26,7 +26,6 @@
       <input id="QuadraticLearningRate" type="range" min="0" max="0.001" step="0.0001" value="0.0005" class="slider">
     </div>
 
-    <button class="button">Generate Data</button>
     <button id="TrainQuadratic" class="button">Train</button>
   </div>
 
