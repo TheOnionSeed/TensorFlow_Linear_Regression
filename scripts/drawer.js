@@ -50,12 +50,12 @@ function generateData(numPoints, coeff, sigma = 0.3) {
       return meanSquareError;
    }
       
-   async function train(xs,ys,numIterations=1000000){
+   async function train(xs,ys,numIterations=10000000){
       const learningRate = 0.0004;
       const optimizer = tf.train.sgd(learningRate);
       
       for(let i=0; i < numIterations; i++){
-          await sleep(100);
+          await sleep(10);
 				 optimizer.minimize(() => {
 				const predsYs = predict(xs);
 				
@@ -88,7 +88,7 @@ async function init(){
        myGraph.drawCoordinates(coordinatesx[i],coordinatesy[i], 'red', 1);
     }
   
-    train(trainingData.xs,trainingData.ys,numIterations=1000000);
+    train(trainingData.xs,trainingData.ys,numIterations=10000000);
 
       // myGraph.drawEquation(function(x) {
          // return a.dataSync()[0]*x*x + b.dataSync()[0]*x + c.dataSync()[0] ;
