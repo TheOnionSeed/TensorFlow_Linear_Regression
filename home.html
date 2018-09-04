@@ -24,7 +24,7 @@
 
     <p>Learning Rate: <span id="demo"></span></p>
     <div class="slidecontainer">
-      <input id="QuadraticLearningRate" type="range" min="0" max="1" step="0.0001" value="0.5" class="slider"  >
+      <input id="QuadraticLearningRate" type="range" min="0" max="0.001" step="0.0001" value="0.0005" class="slider"  >
     </div>
 
     <button id="TrainQuadratic" class="button">Train</button>
@@ -73,27 +73,27 @@ slider2.oninput = function() {
 
 
   <div class="container">
-		<h2>Quartic function</h2>
+		<h2>Sinusoidal function</h2>
 
 			<div class="graph">
-		 		<canvas id="QuarticCanvas" width="578" height="578"></canvas></canvas>
+		 		<canvas id="SineCanvas" width="578" height="578"></canvas></canvas>
 			</div>
 
 		<form class="sampleSize">
-				Sample Size: <input id="QuarticSampleSize" type="number" min=1000 max=100000 name="Sample Size"><br>
+				Sample Size: <input id="SineSampleSize" type="number" min=1000 max=100000 name="Sample Size"><br>
 			</form>
 
 
 			<p>Learning Rate: <span id="demo3"></span></p>
 			<div class="slidecontainer">
-				<input id="QuarticLearningRate" type="range" min="0" max="0.001" step="0.0001" value="0.0005" class="slider">
+				<input id="SineLearningRate" type="range" min="0" max="0.001" step="0.0001" value="0.0005" class="slider">
 			</div>
 
-			<button id="TrainQuartic" class="button">Train</button>
+			<button id="TrainSine" class="button">Train</button>
 		</div>
 
 		<script>
-		var slider3 = document.getElementById("QuarticLearningRate");
+		var slider3 = document.getElementById("SineLearningRate");
 		var output3 = document.getElementById("demo3");
 		output3.innerHTML = slider.value;
 
@@ -103,27 +103,27 @@ slider2.oninput = function() {
 		</script>
 
   <div class="container">
-		<h2>Quintic function</h2>
+		<h2>Cosine function</h2>
 
 			<div class="graph">
-		 		<canvas id="QuinticCanvas" width="578" height="578"></canvas></canvas>
+		 		<canvas id="CosineCanvas" width="578" height="578"></canvas></canvas>
 			</div>
 
 		<form class="sampleSize">
-				Sample Size: <input id="QuinticSampleSize" type="number" min=1000 max=100000 name="Sample Size"><br>
+				Sample Size: <input id="CosineSampleSize" type="number" min=1000 max=100000 name="Sample Size"><br>
 			</form>
 
 
 			<p>Learning Rate: <span id="demo4"></span></p>
 			<div class="slidecontainer">
-				<input id="QuinticLearningRate" type="range" min="0" max="0.001" step="0.0001" value="0.0005" class="slider">
+				<input id="CosineLearningRate" type="range" min="0" max="0.001" step="0.0001" value="0.0005" class="slider">
 			</div>
 
-			<button id="TrainQuintic" class="button">Train</button>
+			<button id="TrainCosine" class="button">Train</button>
 		</div>
 
 		<script>
-		var slider4 = document.getElementById("QuinticLearningRate");
+		var slider4 = document.getElementById("CosineLearningRate");
 		var output4 = document.getElementById("demo4");
 		output4.innerHTML = slider.value;
 
