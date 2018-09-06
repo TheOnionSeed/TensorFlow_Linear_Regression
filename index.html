@@ -1,202 +1,135 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-  <head>
-    <style>
-      body {
-        margin: 0px;
-        padding: 0px;
-      }
 
-    </style>
-  </head>
-  <body>
-    <canvas id="myCanvas" width="578" height="578"></canvas>
-    <script>
-      function Graph(config) {
-        // user defined properties
-        this.canvas = document.getElementById(config.canvasId);
-        this.minX = config.minX;
-        this.minY = config.minY;
-        this.maxX = config.maxX;
-        this.maxY = config.maxY;
-        this.unitsPerTick = config.unitsPerTick;
+<link rel="stylesheet" type="text/css" href="homecss.css">
+<script src="./scripts/jquery-3.3.1.min.js"></script>
+<script src="./scripts/tfjs@0.12.js"></script>
+<script src="./scripts/graph.js"></script>
+<script src="./scripts/drawer.js"></script>
 
-        // constants
-        this.axisColor = '#aaa';
-        this.font = '8pt Calibri';
-        this.tickSize = 20;
+<!--<script src="sliderjs.js"></script> -->
+<center>
+	<!-- Quadratic Function -->
+  <div class="container">
+	<h2>Quadratic function</h2>
 
-        // relationships
-        this.context = this.canvas.getContext('2d');
-        this.rangeX = this.maxX - this.minX;
-        this.rangeY = this.maxY - this.minY;
-        this.unitX = this.canvas.width / this.rangeX;
-        this.unitY = this.canvas.height / this.rangeY;
-        this.centerY = Math.round(Math.abs(this.minY / this.rangeY) * this.canvas.height);
-        this.centerX = Math.round(Math.abs(this.minX / this.rangeX) * this.canvas.width);
-        this.iteration = (this.maxX - this.minX) / 1000;
-        this.scaleX = this.canvas.width / this.rangeX;
-        this.scaleY = this.canvas.height / this.rangeY;
+    <div class="graph">
+       <canvas id="QuadraticCanvas" width="578" height="578"></canvas></canvas>
+    </div>
 
-        // draw x and y axis
-        this.drawXAxis();
-        this.drawYAxis();
-      }
+	<form class="sampleSize">
+      Sample Size: <input id="QuadraticSampleSize" type="number" min=1000 max=100000 name="Sample Size"><br>
+    </form>
 
-      Graph.prototype.drawXAxis = function() {
-        var context = this.context;
-        context.save();
-        context.beginPath();
-        context.moveTo(0, this.centerY);
-        context.lineTo(this.canvas.width, this.centerY);
-        context.strokeStyle = this.axisColor;
-        context.lineWidth = 2;
-        context.stroke();
 
-        // draw tick marks
-        var xPosIncrement = this.unitsPerTick * this.unitX;
-        var xPos, unit;
-        context.font = this.font;
-        context.textAlign = 'center';
-        context.textBaseline = 'top';
+    <p>Learning Rate: <span id="demo"></span></p>
+    <div class="slidecontainer">
+      <input id="QuadraticLearningRate" type="range" min="0" max="0.001" step="0.0001" value="0.0005" class="slider"  >
+    </div>
 
-        // draw left tick marks
-        xPos = this.centerX - xPosIncrement;
-        unit = -1 * this.unitsPerTick;
-        while(xPos > 0) {
-          context.moveTo(xPos, this.centerY - this.tickSize / 2);
-          context.lineTo(xPos, this.centerY + this.tickSize / 2);
-          context.stroke();
-          context.fillText(unit, xPos, this.centerY + this.tickSize / 2 + 3);
-          unit -= this.unitsPerTick;
-          xPos = Math.round(xPos - xPosIncrement);
-        }
+    <button id="TrainQuadratic" class="button">Train</button>
+  </div>
 
-        // draw right tick marks
-        xPos = this.centerX + xPosIncrement;
-        unit = this.unitsPerTick;
-        while(xPos < this.canvas.width) {
-          context.moveTo(xPos, this.centerY - this.tickSize / 2);
-          context.lineTo(xPos, this.centerY + this.tickSize / 2);
-          context.stroke();
-          context.fillText(unit, xPos, this.centerY + this.tickSize / 2 + 3);
-          unit += this.unitsPerTick;
-          xPos = Math.round(xPos + xPosIncrement);
-        }
-        context.restore();
-      };
+  <script>
+  var slider = document.getElementById("QuadraticLearningRate");
+  var output = document.getElementById("demo");
+  output.innerHTML = slider.value;
 
-      Graph.prototype.drawYAxis = function() {
-        var context = this.context;
-        context.save();
-        context.beginPath();
-        context.moveTo(this.centerX, 0);
-        context.lineTo(this.centerX, this.canvas.height);
-        context.strokeStyle = this.axisColor;
-        context.lineWidth = 2;
-        context.stroke();
+  slider.oninput = function() {
+    output.innerHTML = this.value;
+  }
+  </script>
 
-        // draw tick marks
-        var yPosIncrement = this.unitsPerTick * this.unitY;
-        var yPos, unit;
-        context.font = this.font;
-        context.textAlign = 'right';
-        context.textBaseline = 'middle';
+<!-- Cubic function --------->
+<div class="container">
+<h2>Cubic function</h2>
 
-        // draw top tick marks
-        yPos = this.centerY - yPosIncrement;
-        unit = this.unitsPerTick;
-        while(yPos > 0) {
-          context.moveTo(this.centerX - this.tickSize / 2, yPos);
-          context.lineTo(this.centerX + this.tickSize / 2, yPos);
-          context.stroke();
-          context.fillText(unit, this.centerX - this.tickSize / 2 - 3, yPos);
-          unit += this.unitsPerTick;
-          yPos = Math.round(yPos - yPosIncrement);
-        }
+	<div class="graph">
+ 		<canvas id="CubicCanvas" width="578" height="578"></canvas></canvas>
+	</div>
 
-        // draw bottom tick marks
-        yPos = this.centerY + yPosIncrement;
-        unit = -1 * this.unitsPerTick;
-        while(yPos < this.canvas.height) {
-          context.moveTo(this.centerX - this.tickSize / 2, yPos);
-          context.lineTo(this.centerX + this.tickSize / 2, yPos);
-          context.stroke();
-          context.fillText(unit, this.centerX - this.tickSize / 2 - 3, yPos);
-          unit -= this.unitsPerTick;
-          yPos = Math.round(yPos + yPosIncrement);
-        }
-        context.restore();
-      };
+<form class="sampleSize">
+		Sample Size: <input id="CubicSampleSize" type="number" min=1000 max=100000 name="Sample Size"><br>
+	</form>
 
-      Graph.prototype.drawEquation = function(equation, color, thickness) {
-        var context = this.context;
-        context.save();
-        context.save();
-        this.transformContext();
 
-        context.beginPath();
-        context.moveTo(this.minX, equation(this.minX));
+	<p>Learning Rate: <span id="demo2"></span></p>
+	<div class="slidecontainer">
+		<input id="CubicLearningRate" type="range" min="0" max="0.001" step="0.0001" value="0.0005" class="slider">
+	</div>
 
-        for(var x = this.minX + this.iteration; x <= this.maxX; x += this.iteration) {
-          context.lineTo(x, equation(x));
-        }
+	<button id="TrainCubic" class="button">Train</button>
+</div>
 
-        context.restore();
-        context.lineJoin = 'round';
-        context.lineWidth = thickness;
-        context.strokeStyle = color;
-        context.stroke();
-        context.restore();
-      };
-	  
-	  Graph.prototype.drawCoordinates = function(x,y, color, thickness) {
-		var context = this.context;
-		var pointSize = 3;
-		context.fillStyle = "#ff2626"; // Red color
+<script>
+var slider2 = document.getElementById("CubicLearningRate");
+var output2 = document.getElementById("demo2");
+output2.innerHTML = slider.value;
 
-		context.beginPath(); //Start path
-		context.arc(this.centerX + (x*this.scaleX), this.centerY+ ((y*-1)*this.scaleY), pointSize, 0, Math.PI * 2, true); // Draw a point using the arc function of the canvas with a point structure.
-		context.fill(); // Close the path and fill.
-      };
+slider2.oninput = function() {
+	output2.innerHTML = this.value;
+}
+</script>
 
-      Graph.prototype.transformContext = function() {
-        var context = this.context;
 
-        // move context to center of canvas
-        this.context.translate(this.centerX, this.centerY);
+  <div class="container">
+		<h2>Sinusoidal function</h2>
 
-        /*
-         * stretch grid to fit the canvas window, and
-         * invert the y scale so that that increments
-         * as you move upwards
-         */
-        context.scale(this.scaleX, -this.scaleY);
-      };
-      var myGraph = new Graph({
-        canvasId: 'myCanvas',
-        minX: -10,
-        minY: -10,
-        maxX: 10,
-        maxY: 10,
-        unitsPerTick: 1
-      });
+			<div class="graph">
+		 		<canvas id="SineCanvas" width="578" height="578"></canvas></canvas>
+			</div>
 
-      myGraph.drawEquation(function(x) {
-        return 5 * Math.sin(x);
-      }, 'green', 3);
+		<form class="sampleSize">
+				Sample Size: <input id="SineSampleSize" type="number" min=1000 max=100000 name="Sample Size"><br>
+			</form>
 
-      myGraph.drawEquation(function(x) {
-        return 2*x * x -1 ;
-      }, 'blue', 3);
 
-	  myGraph.drawCoordinates(1,1, 'red', 1);
-	  myGraph.drawCoordinates(2,3, 'red', 1);
-	  
-      <!-- myGraph.drawEquation(function(x) { -->
-        <!-- return 1 * x; -->
-      <!-- }, 'red', 3); -->
+			<p>Learning Rate: <span id="demo3"></span></p>
+			<div class="slidecontainer">
+				<input id="SineLearningRate" type="range" min="0" max="0.001" step="0.0001" value="0.0005" class="slider">
+			</div>
 
-    </script>
-  </body>
+			<button id="TrainSine" class="button">Train</button>
+		</div>
+
+		<script>
+		var slider3 = document.getElementById("SineLearningRate");
+		var output3 = document.getElementById("demo3");
+		output3.innerHTML = slider.value;
+
+		slider3.oninput = function() {
+			output3.innerHTML = this.value;
+		}
+		</script>
+
+  <div class="container">
+		<h2>Cosine function</h2>
+
+			<div class="graph">
+		 		<canvas id="CosineCanvas" width="578" height="578"></canvas></canvas>
+			</div>
+
+		<form class="sampleSize">
+				Sample Size: <input id="CosineSampleSize" type="number" min=1000 max=100000 name="Sample Size"><br>
+			</form>
+
+
+			<p>Learning Rate: <span id="demo4"></span></p>
+			<div class="slidecontainer">
+				<input id="CosineLearningRate" type="range" min="0" max="0.001" step="0.0001" value="0.0005" class="slider">
+			</div>
+
+			<button id="TrainCosine" class="button">Train</button>
+		</div>
+
+		<script>
+		var slider4 = document.getElementById("CosineLearningRate");
+		var output4 = document.getElementById("demo4");
+		output4.innerHTML = slider.value;
+
+		slider4.oninput = function() {
+			output4.innerHTML = this.value;
+		}
+		</script>
+</center>
 </html>
